@@ -88,7 +88,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
-            style={{ color: '#ffffff' }}
+            style={{ backgroundColor: '#ffffff' }}
           />
           <TextField
             variant="outlined"
@@ -100,7 +100,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            style={{ color: '#ffffff' }}
+            style={{ backgroundColor: '#ffffff' }}
           />
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

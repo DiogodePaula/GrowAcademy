@@ -87,6 +87,7 @@ export default function SignUp() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                style={{ backgroundColor: '#ffffff' }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -98,6 +99,7 @@ export default function SignUp() {
                 label="Email"
                 name="email"
                 autoComplete="email"
+                style={{ backgroundColor: '#ffffff' }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -110,6 +112,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                style={{ backgroundColor: '#ffffff' }}
               />
             </Grid>
           </Grid>
