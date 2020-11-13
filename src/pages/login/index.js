@@ -1,138 +1,86 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/AssignmentInd';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { FormGroup, Label, Input } from 'reactstrap';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-function Copyright() {
-  return (
-    <Typography
-      variant="body2"
-      color="textSecondary"
-      align="center"
-      style={{ color: '#ffffff' }}
-    >
-      {'© 2020 growdev. '}
-      <Link color="inherit" href="https://growdev.com.br/" target="_blank">
-        All rights reserved Growdev.
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import * as loginActions from '../../store/login/action';
+import api from '../../services/api';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import { Article, Button } from '../movies/styles';
+import logo from '../image/logo.png';
+import imgLogin from '../image/login-img.jpg';
 
-export default function SignIn() {
-  const classes = useStyles();
+const Example = () => {
+  const [password, setPassword] = useState('');
+  const [login, setLogin] = useState('');
+
+  const dispatch = useDispatch();
+
+  async function handleLogin() {
+    try {
+      const response = await api.post('/login', {
+        login,
+        password,
+      });
+
+      if (response.data.token) {
+        dispatch(loginActions.login(response.data.token));
+        localStorage.setItem('tokenAuth', response.data.token);
+      }
+      localStorage.setItem('userUid', response.data.user.uid);
+    } catch (error) {
+      alert('error ao tentar logar');
+    }
+  }
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
+    <div
       style={{
-        backgroundColor: '#2b385b',
-        color: '#ffffff',
-        paddingBottom: '20px',
-        borderRadius: '20px',
+        backgroundImage: `url(${imgLogin})`,
+        // backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        height: '100vh',
+        paddingTop: '2em',
       }}
     >
-      <CssBaseline />
-      <div className={classes.paper} style={{ color: '#ffffff' }}>
-        <br />
-        <Avatar
-          className={classes.avatar}
-          style={{ backgroundColor: '#e16e0e' }}
-        >
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            style={{ backgroundColor: '#ffffff' }}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            style={{ backgroundColor: '#ffffff' }}
-          />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            style={{ backgroundColor: '#e16e0e' }}
-          >
-            ENTRAR
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/" variant="body2" style={{ color: '#ffffff' }}>
-                Página inicial
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/create" variant="body2" style={{ color: '#ffffff' }}>
-                Inscreva-se
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+      <div className="col-12" style={{ width: '43%', margin: 'auto' }}>
+        <img src={logo} alt="FILMESFLIX" className="" />
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+      <br />
+      <div className="container">
+        <div className="row">
+          <section className="col-12">
+            <Article style={{ width: '600px', margin: 'auto' }}>
+              <FormGroup>
+                <Label for="examplePassword">login</Label>
+                <Input
+                  type="text"
+                  value={login}
+                  placeholder="login"
+                  style={{ width: '100%' }}
+                  onChange={(e) => setLogin(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="examplelogin">Password</Label>
+                <Input
+                  type="password"
+                  value={password}
+                  placeholder="password"
+                  style={{ width: '100%' }}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </FormGroup>
+              <Button onClick={handleLogin}>Login</Button>
+              <Link to="/register" style={{ paddingLeft: '10px' }}>
+                <Button>Criar conta</Button>
+              </Link>
+            </Article>
+          </section>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default Example;

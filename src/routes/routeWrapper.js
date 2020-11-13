@@ -3,9 +3,6 @@ import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 
-import DefaultLayout from '../pages/_layouts/default';
-import AuthLayout from '../pages/_layouts/auth';
-
 export default function RouteWrapper({
   component: Component,
   isPrivate,
@@ -27,19 +24,7 @@ export default function RouteWrapper({
     return <Redirect to="/" />;
   }
 
-  const Layout = signed ? DefaultLayout : AuthLayout;
-
-  return (
-    <Route
-      {...rest}
-      render={(props) => (
-        <Layout>
-          {' '}
-          <Component {...props} />
-        </Layout>
-      )}
-    />
-  );
+  return <Route {...rest} render={(props) => <Component {...props} />} />;
 }
 
 RouteWrapper.propTypes = {

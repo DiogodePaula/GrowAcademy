@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +10,8 @@ import LockOutlinedIcon from '@material-ui/icons/AccountBox';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import api from '../../services/api';
 
 function Copyright() {
   return (
@@ -51,6 +53,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [name, setName] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [users, setUsers] = useState('');
+
+  async function handleUser() {
+    await api
+      .post('/users', { name, login, password })
+      .then((response) => setUsers([...users, response.data]))
+      .catch((error) => console.log(error));
+  }
 
   return (
     <Container
@@ -80,13 +93,14 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="Nome"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                label="Nome"
                 autoFocus
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 style={{ backgroundColor: '#ffffff' }}
               />
             </Grid>
@@ -95,10 +109,10 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
+                label="Login"
+                name="Login"
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
                 style={{ backgroundColor: '#ffffff' }}
               />
             </Grid>
@@ -110,8 +124,8 @@ export default function SignUp() {
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
-                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 style={{ backgroundColor: '#ffffff' }}
               />
             </Grid>
@@ -122,6 +136,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleUser}
             style={{ backgroundColor: '#e16e0e' }}
           >
             Criar conta

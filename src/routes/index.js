@@ -3,17 +3,21 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 
 import Router from './routeWrapper';
 
-import HomePage from '../pages/home';
 import LoginPage from '../pages/login';
-import CriarConta from '../pages/criarConta';
+import UserPage from '../pages/user';
+import MoviePage from '../pages/movies';
+import MyMovies from '../pages/myMovies';
+import Classes from '../pages/classes';
 
 export default () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Router path="/" exact component={HomePage} />
+        <Router path="/" exact isPrivate component={MoviePage} />
+        <Router path="/movie" exact isPrivate component={MyMovies} />
         <Router path="/login" exact component={LoginPage} />
-        <Router path="/create" exact component={CriarConta} />
+        <Router path="/register" exact component={UserPage} />
+        <Router path="/classes" exact isPrivate component={Classes} />
       </Switch>
     </BrowserRouter>
   );
