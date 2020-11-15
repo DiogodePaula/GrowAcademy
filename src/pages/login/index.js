@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import * as loginActions from '../../store/login/action';
 import api from '../../services/api';
 
-import { Article, Button } from '../movies/styles';
-import logo from '../image/logo.png';
+import { Article, Button, Section } from '../movies/styles';
+import logo from '../image/logo-dark.png';
 import imgLogin from '../image/login-img.jpg';
 
 const Example = () => {
@@ -34,52 +34,44 @@ const Example = () => {
   }
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${imgLogin})`,
-        // backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        height: '100vh',
-        paddingTop: '2em',
-      }}
-    >
-      <div className="col-12" style={{ width: '43%', margin: 'auto' }}>
-        <img src={logo} alt="FILMESFLIX" className="" />
-      </div>
-      <br />
+    <Section>
+      <picture
+        className="col-12"
+        style={{ textAlign: 'center', marginTop: '2em' }}
+      >
+        <img src={logo} alt="Growdev" className="" />
+      </picture>
       <div className="container">
         <div className="row">
-          <section className="col-12">
-            <Article style={{ width: '600px', margin: 'auto' }}>
-              <FormGroup>
-                <Label for="examplePassword">login</Label>
-                <Input
-                  type="text"
-                  value={login}
-                  placeholder="login"
-                  style={{ width: '100%' }}
-                  onChange={(e) => setLogin(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="examplelogin">Password</Label>
-                <Input
-                  type="password"
-                  value={password}
-                  placeholder="password"
-                  style={{ width: '100%' }}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </FormGroup>
-              <Button onClick={handleLogin}>Login</Button>
-              <Link to="/register" style={{ paddingLeft: '10px' }}>
-                <Button>Criar conta</Button>
-              </Link>
-            </Article>
-          </section>
+          <Article className="col-sm-12 col-lg-5">
+            <FormGroup>
+              <Label for="examplePassword">login</Label>
+              <Input
+                type="text"
+                value={login}
+                placeholder="login"
+                style={{ width: '100%' }}
+                onChange={(e) => setLogin(e.target.value)}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="examplelogin">Password</Label>
+              <Input
+                type="password"
+                value={password}
+                placeholder="password"
+                style={{ width: '100%' }}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormGroup>
+            <Button onClick={handleLogin}>Login</Button>
+            <Link to="/register" style={{ float: 'right' }}>
+              <Button>Criar conta</Button>
+            </Link>
+          </Article>
         </div>
       </div>
-    </div>
+    </Section>
   );
 };
 

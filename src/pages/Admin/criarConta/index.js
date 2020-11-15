@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 
 function Copyright() {
   return (
@@ -143,7 +143,11 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2" style={{ color: '#ffffff' }}>
+              <Link
+                href="/admin-home"
+                variant="body2"
+                style={{ color: '#ffffff' }}
+              >
                 Já tem conta? Login
               </Link>
             </Grid>

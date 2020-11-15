@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardText,
-  CardBody,
-  CardLink,
-  CardTitle,
-  CardSubtitle,
-  Container,
-  Row,
-  Col,
-  NavItem,
-  Nav,
-  Table,
-} from 'reactstrap';
+import { Container, Row, Col, NavItem, Nav, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import logo from '../image/logo.png';
@@ -20,32 +7,32 @@ import { Div, Article, Section, Img, Button } from '../movies/styles';
 import img from '../image/vingadores.jpg';
 
 const Classes = (props) => {
-  const [classes, setClasses] = useState([]);
+  const [growdevers, setGrowdevers] = useState([]);
   const uid = localStorage.getItem('userUid');
 
-  async function handleDeleteClasse(uid) {
+  async function handleDeleteGrowdevers(uid) {
     await api
-      .delete(`/classes/${uid}`, {
+      .delete(`/growdevers/${uid}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
         },
       })
       .then((response) => {
-        setClasses(classes.filter((classe) => classe.uid !== uid));
+        setGrowdevers(growdevers.filter((growdever) => growdever.uid !== uid));
       })
-      .catch((error) => console.log('Erro ao deletar materia'));
+      .catch((error) => console.log('Erro ao deletar aluno!'));
   }
 
   useEffect(() => {
     api
-      .get(`/classes/${uid}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
-        },
+      .get(`/growdevers`, {
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
+        // },
       })
-      .then((response) => setClasses(response.data.classe))
-      // eslint-disable-next-line no-alert
-      .catch((error) => alert('Error ao buscar filmes cadastrados.'));
+      .then((response) => setGrowdevers(response.data.growdever))
+
+      .catch((error) => alert('Error ao buscar alunos cadastrados.'));
   }, []);
 
   return (
@@ -72,7 +59,7 @@ const Classes = (props) => {
       <Container>
         <Row>
           <Col>
-            <Article style={{ width: '50%', opacity: '0.8', padding: '21px' }}>
+            <Article style={{ width: '90%', opacity: '0.8', padding: '21px' }}>
               <Table
                 style={{
                   width: '100%',
@@ -84,27 +71,41 @@ const Classes = (props) => {
                 <thead>
                   <tr>
                     <th>Nome</th>
-                    <th>Duração</th>
-                    <th>Gênero</th>
-                    <th>Já assistiu</th>
-                    <th>Excluir Filme?</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Programa</th>
                   </tr>
                 </thead>
-                <tbody style={{}}>
-                  {classes.map((classe) => (
-                    <React.Fragment key={classe.uid}>
+                <tbody>
+                  {growdevers.map((growdever) => (
+                    <React.Fragment key={growdever.uid}>
                       <tr>
-                        <td>{classe.name}</td>
-                        <td>{classe.duration}</td>
-                        <td>{classe.type}</td>
-                        <td>{`${classe.watched ? 'Sim' : 'Não'}`}</td>
+                        <td>{growdever.name}</td>
+                        <td>{growdever.email}</td>
+                        <td>{growdever.phone}</td>
+                        <td>{growdever.program}</td>
+                        {/* <td>{`${classe.watched ? 'Sim' : 'Não'}`}</td> */}
                         <td>
                           <span>
                             <Button
                               style={{ width: '100px' }}
-                              onClick={() => handleDeleteClasse(classe.uid)}
+                              onClick={() =>
+                                handleDeleteGrowdevers(growdever.uid)
+                              }
                             >
                               Excluir
+                            </Button>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <Button
+                              style={{ width: '100px' }}
+                              // onClick={() =>
+                              //   handleDeleteGrowdevers(growdever.uid)
+                              // }
+                            >
+                              Editar
                             </Button>
                           </span>
                         </td>

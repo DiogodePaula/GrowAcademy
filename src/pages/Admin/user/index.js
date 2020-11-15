@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import api from '../../services/api';
+import api from '../../../services/api';
 
-import imgUser from '../image/adam.jpg';
-import { Article, Button } from '../movies/styles';
+import { Article, Button } from '../../movies/styles';
 
 const Example = () => {
   const [name, setName] = useState('');
@@ -25,14 +24,7 @@ const Example = () => {
   }
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${imgUser})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        height: '100vh',
-      }}
-    >
+    <div>
       <br />
       <br />
       <Article

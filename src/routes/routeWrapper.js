@@ -5,34 +5,45 @@ import propTypes from 'prop-types';
 
 export default function RouteWrapper({
   component: Component,
-  isPrivate,
+  isPrivateAdmin,
+  isPrivateGrow,
   ...rest
 }) {
   const user = useSelector((state) => state.login);
-
+  const userType = user?.user?.type;
   let signed = false;
 
   if (user) {
     signed = true;
   }
 
-  if (!signed && isPrivate) {
+  if (!signed && isPrivateAdmin) {
     return <Redirect to="/login" />;
   }
 
-  if (signed && !isPrivate) {
-    return <Redirect to="/" />;
+  if (signed && !isPrivateAdmin && userType === 'Admin') {
+    return <Redirect to="/adminHome" />;
+  }
+
+  if (!signed && isPrivateGrow) {
+    return <Redirect to="/login" />;
+  }
+
+  if (signed && !isPrivateGrow && userType === 'Growdever') {
+    return <Redirect to="/growdeverHome" />;
   }
 
   return <Route {...rest} render={(props) => <Component {...props} />} />;
 }
 
 RouteWrapper.propTypes = {
-  isPrivate: propTypes.bool,
+  isPrivateAdmin: propTypes.bool,
+  isPrivateGrow: propTypes.bool,
   component: propTypes.oneOfType([propTypes.elementType, propTypes.func])
     .isRequired,
 };
 
 RouteWrapper.defaultProps = {
-  isPrivate: false,
+  isPrivateAdmin: false,
+  isPrivateGrow: false,
 };

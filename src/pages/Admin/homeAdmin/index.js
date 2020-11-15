@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,10 +11,14 @@ import Grid from '@material-ui/core/Grid';
 import StarIcon from '@material-ui/icons/StarBorder';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+
+import { Article, Table } from '../../movies/styles';
+import api from '../../../services/api';
 
 function Copyright() {
   return (
@@ -115,38 +119,37 @@ const tiers = [
     buttonVariant: 'outlined',
   },
 ];
-const footers = [
-  {
-    title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-  },
-  {
-    title: 'Features',
-    description: [
-      'Cool stuff',
-      'Random feature',
-      'Team feature',
-      'Developer stuff',
-      'Another one',
-    ],
-  },
-  {
-    title: 'Resources',
-    description: [
-      'Resource',
-      'Resource name',
-      'Another resource',
-      'Final resource',
-    ],
-  },
-  {
-    title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-  },
-];
 
 export default function Pricing() {
   const classes = useStyles();
+
+  const [growdevers, setGrowdevers] = useState([]);
+  const uid = localStorage.getItem('userUid');
+
+  async function handleDeleteGrowdevers(uid) {
+    await api
+      .delete(`/growdevers/${uid}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
+        },
+      })
+      .then((response) => {
+        setGrowdevers(growdevers.filter((growdever) => growdever.uid !== uid));
+      })
+      .catch((error) => console.log('Erro ao deletar aluno!'));
+  }
+
+  useEffect(() => {
+    api
+      .get(`/growdevers`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
+        },
+      })
+      .then((response) => setGrowdevers(response.data.growdever))
+
+      .catch((error) => alert('Error ao buscar alunos cadastrados.'));
+  }, []);
 
   return (
     <>
@@ -169,57 +172,113 @@ export default function Pricing() {
             Grow<span style={{ color: '#e16e0e' }}>dev</span>
           </Typography>
           <nav>
-            {/* <Link
+            <Button
               variant="button"
               color="textPrimary"
               href="#"
               className={classes.link}
+              style={{
+                fontWeight: '600',
+                border: '2px solid',
+                color: '#ffffff',
+              }}
             >
-              Cursos
-            </Link>
-            <Link
+              Cadastrar Cursos
+            </Button>
+            {/* <Button
               variant="button"
               color="textPrimary"
               href="#"
               className={classes.link}
+              style={{
+                fontWeight: '600',
+                border: '2px solid',
+                color: '#ffffff',
+              }}
             >
               Sobre a empresa
-            </Link> */}
+            </Button> */}
           </nav>
           <Button
-            href="/login"
+            href="/admin-home/user"
             color="primary"
             variant="outlined"
             className={classes.link}
-            style={{ fontWeight: '600', border: '2px solid', color: '#ffffff' }}
+            style={{
+              fontWeight: '600',
+              border: '2px solid',
+              color: '#ffffff',
+            }}
           >
-            Login
+            cadastrar Growdever
           </Button>
         </Toolbar>
       </AppBar>
       {/* Hero unit */}
-      <Container maxWidth="sm" component="main" className={classes.heroContent}>
+      <Container maxWidth="xl" component="main" className={classes.heroContent}>
         <Typography
           component="h1"
-          variant="h2"
           align="center"
           color="textPrimary"
           gutterBottom
           style={{ color: '#2b385b', fontWeight: '700' }}
         >
-          Grow<span style={{ color: '#e16e0e' }}>Academy</span>
-        </Typography>
-        <Typography
-          variant="h5"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          O GrowAcademy é um iniciativa da Growdev que nasceu para atender aos
-          Growdevers que não dispunham do equipamento necessário para realizar
-          as atividades no modelo Home Office e aos alunos que tenham
-          preferência de aulas presenciais (respeitando o número limite de vagas
-          dos encontros).
+          <article style={{ width: '90%', margin: 'auto', color: '#2b385b' }}>
+            <table
+              style={{
+                width: '100%',
+                margin: 'auto',
+                paddingTop: '50px',
+                color: '#ffffff',
+              }}
+            >
+              <thead style={{ color: '#2b385b' }}>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Programa</th>
+                </tr>
+              </thead>
+              <tbody>
+                {growdevers.map((growdever) => (
+                  <React.Fragment key={growdever.uid}>
+                    <tr style={{ color: '#2b385b' }}>
+                      <td>{growdever.name}</td>
+                      <td>{growdever.email}</td>
+                      <td>{growdever.phone}</td>
+                      <td>{growdever.program}</td>
+                      {/* <td>{`${classe.watched ? 'Sim' : 'Não'}`}</td> */}
+                      <td>
+                        <span>
+                          <Button
+                            style={{ width: '100px' }}
+                            onClick={() =>
+                              handleDeleteGrowdevers(growdever.uid)
+                            }
+                          >
+                            Excluir
+                          </Button>
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          <Button
+                            style={{ width: '100px' }}
+                            // onClick={() =>
+                            //   handleDeleteGrowdevers(growdever.uid)
+                            // }
+                          >
+                            Editar
+                          </Button>
+                        </span>
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </article>
         </Typography>
       </Container>
       {/* End hero unit */}
