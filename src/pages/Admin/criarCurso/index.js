@@ -126,19 +126,19 @@ export default function Pricing() {
   const dispatch = useDispatch();
 
   const [growdevers, setGrowdevers] = useState([]);
-  // const uid = localStorage.getItem('userUid');
+  const uid = localStorage.getItem('userUid');
 
   async function handleDeleteGrowdevers(uid) {
     await api
       .delete(`/growdevers/${uid}`, {
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
+        },
       })
-      .then(() => {
+      .then((response) => {
         setGrowdevers(growdevers.filter((growdever) => growdever.uid !== uid));
       })
-      .catch(() => console.log('Erro ao deletar aluno!'));
+      .catch((error) => console.log('Erro ao deletar aluno!'));
   }
 
   useEffect(() => {
@@ -215,7 +215,7 @@ export default function Pricing() {
           </nav>
         </Toolbar>
       </AppBar>
-
+      {/* Hero unit */}
       <Container maxWidth="xl" component="main" className={classes.heroContent}>
         <Typography
           component="h1"
@@ -254,6 +254,8 @@ export default function Pricing() {
                   <th>Email</th>
                   <th>Telefone</th>
                   <th>Programa</th>
+                  {/* <th>Excluir</th> */}
+                  {/* <th>Editar</th> */}
                 </tr>
               </thead>
 
@@ -298,10 +300,11 @@ export default function Pricing() {
           </article>
         </Typography>
       </Container>
-
+      {/* End hero unit */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map((tier) => (
+            // Enterprise card is full width at sm breakpoint
             <Grid
               item
               key={tier.title}
@@ -312,7 +315,7 @@ export default function Pricing() {
               <Card>
                 <CardHeader
                   title={tier.title}
-                  subheader={tier.subheader}
+                  // subheader={tier.subheader}
                   titleTypographyProps={{ align: 'center' }}
                   subheaderTypographyProps={{ align: 'center' }}
                   action={tier.title === 'Pro' ? <StarIcon /> : null}
@@ -337,6 +340,7 @@ export default function Pricing() {
                   <Button
                     fullWidth
                     variant={tier.buttonVariant}
+                    // color="primary"
                     style={{ backgroundColor: '#e16e0e', color: '#ffffff' }}
                   >
                     {tier.buttonText}
@@ -347,6 +351,7 @@ export default function Pricing() {
           ))}
         </Grid>
       </Container>
+
       <Container maxWidth="md" component="footer" className={classes.footer}>
         <Box mt={5}>
           <Copyright />

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, NavItem, Nav, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import api from '../../services/api';
-import logo from '../image/logo.png';
-import { Div, Article, Section, Img, Button } from '../movies/styles';
-import img from '../image/vingadores.jpg';
+import api from '../../../services/api';
+
+import { Div, Article, Section, Img, Button } from '../../movies/styles';
 
 const Classes = (props) => {
   const [growdevers, setGrowdevers] = useState([]);
@@ -47,7 +46,7 @@ const Classes = (props) => {
       <Div>
         <Nav style={{ padding: '20px' }}>
           <NavItem className="ml-2" style={{ width: '13%' }}>
-            <Img src={logo} alt="Academy" className="w-75" />
+            <Img alt="Academy" className="w-75" />
           </NavItem>
           <NavItem>
             <Link to="/" style={{ paddingLeft: '10%' }} className="ml-auto">

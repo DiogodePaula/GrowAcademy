@@ -18,15 +18,15 @@ export default function RouteWrapper({
   }
 
   if (!signed && isPrivateAdmin) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   }
 
   if (signed && !isPrivateAdmin && userType === 'Admin') {
-    return <Redirect to="/adminHome" />;
+    return <Redirect to="/admin-home" />;
   }
 
   if (!signed && isPrivateGrow) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   }
 
   if (signed && !isPrivateGrow && userType === 'Growdever') {

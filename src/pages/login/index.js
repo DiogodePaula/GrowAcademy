@@ -8,7 +8,6 @@ import api from '../../services/api';
 
 import { Article, Button, Section } from '../movies/styles';
 import logo from '../image/logo-dark.png';
-import imgLogin from '../image/login-img.jpg';
 
 const Example = () => {
   const [password, setPassword] = useState('');
@@ -22,12 +21,15 @@ const Example = () => {
         login,
         password,
       });
+      const userType = response?.data?.user?.type;
+      const isGrowdever = response?.data?.user?.growdever;
 
-      if (response.data.token) {
-        dispatch(loginActions.login(response.data.token));
-        localStorage.setItem('tokenAuth', response.data.token);
+      if (
+        response?.data?.token &&
+        (isGrowdever !== null || userType === 'Admin')
+      ) {
+        dispatch(loginActions.login(response.data));
       }
-      localStorage.setItem('userUid', response.data.user.uid);
     } catch (error) {
       alert('error ao tentar logar');
     }
