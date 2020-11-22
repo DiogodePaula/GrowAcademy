@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import * as loginActions from '../../store/login/action';
 import api from '../../services/api';
 
-import { Article, Button, Section } from '../movies/styles';
+import { Article, Button2, Section } from '../Admin/homeAdmin/styles';
 import logo from '../image/logo-dark.png';
 
 const Example = () => {
@@ -66,9 +66,9 @@ const Example = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </FormGroup>
-            <Button onClick={handleLogin}>Login</Button>
+            <Button2 onClick={handleLogin}>Login</Button2>
             <Link to="/register" style={{ float: 'right' }}>
-              <Button>Criar conta</Button>
+              <Button2>Criar conta</Button2>
             </Link>
           </Article>
         </div>

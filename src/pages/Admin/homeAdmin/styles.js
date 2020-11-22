@@ -35,7 +35,7 @@ export const Img = styled.img`
   justify-items: center;
 `;
 
-export const Button = styled.button`
+export const Button2 = styled.button`
   background: #ffffff;
   border: solid 2px #2b385b;
   border-radius: 5px;

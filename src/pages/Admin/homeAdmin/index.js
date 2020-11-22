@@ -17,7 +17,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
 import * as loginActions from '../../../store/login/action';
-import { Button } from '../../movies/styles';
+import { Button2 } from './styles';
 
 import api from '../../../services/api';
 
@@ -93,10 +93,11 @@ const tiers = [
     ],
     buttonText: 'Saiba mais',
     buttonVariant: 'outlined',
+    link: 'https://growdev.com.br/starter',
   },
   {
     title: 'Programa Advanced',
-    subheader: 'Most popular',
+    // subheader: 'Most popular',
     price: '15',
     description: [
       '15 vagas',
@@ -176,7 +177,7 @@ export default function Pricing() {
           <nav>
             <Link
               color="textPrimary"
-              href="/admin-home/class"
+              href="/admin-class"
               className={classes.link}
               style={{
                 width: '150px',
@@ -185,12 +186,14 @@ export default function Pricing() {
                 padding: '5px',
                 borderRadius: '5px',
                 fontWeight: '600',
+                textDecoration: 'none',
+                height: '40px',
               }}
             >
               Cadastrar Cursos
             </Link>
             <Link
-              href="/admin-home/user"
+              href="/admin-growdever"
               color="primary"
               variant="outlined"
               className={classes.link}
@@ -201,105 +204,29 @@ export default function Pricing() {
                 padding: '5px',
                 borderRadius: '5px',
                 fontWeight: '600',
+                textDecoration: 'none',
+                height: '40px',
               }}
             >
               Cadastrar Growdever
             </Link>
 
-            <Button
-              type="button"
+            <Button2
+              style={{
+                color: '#ffffff',
+                backgroundColor: '#DC3545',
+                borderRadius: '5px',
+                fontWeight: '600',
+                height: '40px',
+              }}
               onClick={() => dispatch(loginActions.logout())}
             >
-              Logout
-            </Button>
+              Deslogar
+            </Button2>
           </nav>
         </Toolbar>
       </AppBar>
-
-      <Container maxWidth="xl" component="main" className={classes.heroContent}>
-        <Typography
-          component="h1"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-          style={{ color: '#2b385b', fontWeight: '700' }}
-        >
-          <h1>Growdevers</h1>
-          <article
-            style={{
-              width: '90%',
-              margin: 'auto',
-              color: '#2b385b',
-              border: 'solid 3px #2b385b',
-              padding: '10px',
-              borderRadius: '10px',
-            }}
-          >
-            <table
-              style={{
-                width: '100%',
-                margin: 'auto',
-                paddingTop: '50px',
-                color: '#ffffff',
-              }}
-            >
-              <thead>
-                <tr
-                  style={{
-                    marginBottom: '1em',
-                    color: '#e16e0e',
-                  }}
-                >
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                  <th>Programa</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {growdevers.map((growdever) => (
-                  <React.Fragment key={growdever.uid}>
-                    <tr style={{ color: '#2b385b', marginTop: '1em' }}>
-                      <td>{growdever.name}</td>
-                      <td>{growdever.email}</td>
-                      <td>{growdever.phone}</td>
-                      <td>{growdever.program}</td>
-                      {/* <td>{`${classe.watched ? 'Sim' : 'Não'}`}</td> */}
-                      <td>
-                        <span>
-                          <Button
-                            style={{ width: '100px' }}
-                            onClick={() =>
-                              handleDeleteGrowdevers(growdever.uid)
-                            }
-                          >
-                            Excluir
-                          </Button>
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          <Button
-                            style={{ width: '100px' }}
-                            // onClick={() =>
-                            //   handleDeleteGrowdevers(growdever.uid)
-                            // }
-                          >
-                            Editar
-                          </Button>
-                        </span>
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          </article>
-        </Typography>
-      </Container>
-
-      <Container maxWidth="md" component="main">
+      <Container maxWidth="md" component="main" style={{ marginTop: '5em' }}>
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map((tier) => (
             <Grid
@@ -333,14 +260,20 @@ export default function Pricing() {
                     ))}
                   </ul>
                 </CardContent>
-                <CardActions>
-                  <Button
+                <CardActions
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                >
+                  <Button2
                     fullWidth
                     variant={tier.buttonVariant}
-                    style={{ backgroundColor: '#e16e0e', color: '#ffffff' }}
+                    style={{
+                      backgroundColor: '#e16e0e',
+                      color: '#ffffff',
+                      border: 'solid 2px #e16e0e',
+                    }}
                   >
                     {tier.buttonText}
-                  </Button>
+                  </Button2>
                 </CardActions>
               </Card>
             </Grid>
@@ -348,6 +281,93 @@ export default function Pricing() {
         </Grid>
       </Container>
       <Container maxWidth="md" component="footer" className={classes.footer}>
+        <Container
+          maxWidth="xl"
+          component="main"
+          className={classes.heroContent}
+        >
+          <Typography
+            component="h1"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+            style={{ color: '#2b385b', fontWeight: '700' }}
+          >
+            <h1>Growdevers</h1>
+            <article
+              style={{
+                width: '90%',
+                margin: 'auto',
+                color: '#2b385b',
+                border: 'solid 3px #2b385b',
+                padding: '10px',
+                borderRadius: '10px',
+              }}
+            >
+              <table
+                style={{
+                  width: '100%',
+                  margin: 'auto',
+                  paddingTop: '50px',
+                  color: '#ffffff',
+                }}
+              >
+                <thead>
+                  <tr
+                    style={{
+                      marginBottom: '1em',
+                      color: '#e16e0e',
+                    }}
+                  >
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Programa</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {growdevers.map((growdever) => (
+                    <React.Fragment key={growdever.uid}>
+                      <tr style={{ color: '#2b385b', marginTop: '1em' }}>
+                        <td>{growdever.name}</td>
+                        <td>{growdever.email}</td>
+                        <td>{growdever.phone}</td>
+                        <td>{growdever.program}</td>
+                        {/* <td>{`${classe.watched ? 'Sim' : 'Não'}`}</td> */}
+                        <td>
+                          <span>
+                            <Button2
+                              style={{ width: '100px' }}
+                              onClick={() =>
+                                handleDeleteGrowdevers(growdever.uid)
+                              }
+                            >
+                              Excluir
+                            </Button2>
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <Button2
+                              style={{ width: '100px' }}
+                              // onClick={() =>
+                              //   handleDeleteGrowdevers(growdever.uid)
+                              // }
+                            >
+                              Editar
+                            </Button2>
+                          </span>
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </table>
+            </article>
+          </Typography>
+        </Container>
+
         <Box mt={5}>
           <Copyright />
         </Box>

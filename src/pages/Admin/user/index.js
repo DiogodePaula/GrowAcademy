@@ -3,7 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import api from '../../../services/api';
 
-import { Article, Button } from '../../movies/styles';
+import { Article, Button2 } from '../homeAdmin/styles';
 
 const Example = () => {
   const [name, setName] = useState('');
@@ -73,9 +73,9 @@ const Example = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
-        <Button onClick={handleUser}>Cadastrar</Button>
+        <Button2 onClick={handleUser}>Cadastrar</Button2>
         <Link to="/login" style={{ paddingLeft: '10px' }}>
-          <Button>Voltar</Button>
+          <Button2>Voltar</Button2>
         </Link>
       </Article>
     </div>

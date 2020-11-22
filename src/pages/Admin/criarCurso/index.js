@@ -1,40 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import StarIcon from '@material-ui/icons/StarBorder';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/AccountBox';
 import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-
-import * as loginActions from '../../../store/login/action';
-import { Button } from '../../movies/styles';
+import Button from '@material-ui/core/Button';
+import { Button2 } from '../homeAdmin/styles';
 
 import api from '../../../services/api';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'© 2020 growdev. '}
-      <Link color="inherit" href="https://growdev.com.br/" target="_blank">
-        All rights reserved Growdev.
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import * as loginActions from '../../../store/login/action';
 
 const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
   '@global': {
     ul: {
       margin: 0,
@@ -81,76 +89,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tiers = [
-  {
-    title: 'Programa Starter',
-    price: '0',
-    description: [
-      '15 vagas',
-      'terças e quintas',
-      '18h as 22h 30min',
-      'Techpark Feevale',
-    ],
-    buttonText: 'Saiba mais',
-    buttonVariant: 'outlined',
-  },
-  {
-    title: 'Programa Advanced',
-    subheader: 'Most popular',
-    price: '15',
-    description: [
-      '15 vagas',
-      'segundas e quartas',
-      '18h as 22h 30min',
-      'Techpark Feevale',
-    ],
-    buttonText: 'Saiba mais',
-    buttonVariant: 'contained',
-  },
-  {
-    title: 'Machine learning',
-    price: '30',
-    description: [
-      '10 vagas',
-      'quartas e sextas',
-      '18h as 22h 30min',
-      'Techpark Feevale',
-    ],
-    buttonText: 'Saiba mais',
-    buttonVariant: 'outlined',
-  },
-];
-
-export default function Pricing() {
+export default function Classes() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [growdevers, setGrowdevers] = useState([]);
-  const uid = localStorage.getItem('userUid');
+  const [userSelected, setUserSelected] = useState('');
+  const [bootcamp, setBootcamp] = useState('');
+  const [date, setDate] = useState('');
+  const [hour, setHour] = useState('');
+  const [status, setStatus] = useState('');
 
-  async function handleDeleteGrowdevers(uid) {
+  const [classe, setClasses] = useState([]);
+
+  async function handleClasse(e) {
+    e.preventDefault();
+
     await api
-      .delete(`/growdevers/${uid}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
-        },
-      })
+      .post(
+        '/classes',
+        { bootcamp, date, hour, status }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
+        //   },
+        // }
+      )
       .then((response) => {
-        setGrowdevers(growdevers.filter((growdever) => growdever.uid !== uid));
+        setClasses([...classe, response.data.classe]);
+        alert('Bootcamp cadatsrado com sucesso!!');
       })
-      .catch((error) => console.log('Erro ao deletar aluno!'));
+      .catch((error) => alert('Erro ao cadastrar filme.', error));
+    setBootcamp('');
+    setDate('');
+    setHour('');
+    setStatus('');
   }
 
   useEffect(() => {
     api
-      .get(`/growdevers`, {
+      .get(`/classes`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('tokenAuth')}`,
         },
       })
-      .then((response) => setGrowdevers(response.data.growdever))
+      .then((response) => setClasses(response.data.classe))
 
-      .catch((error) => alert('Error ao buscar alunos cadastrados.'));
+      .catch((error) => alert('Error ao buscar programas.'));
   }, []);
 
   return (
@@ -169,14 +153,14 @@ export default function Pricing() {
             color="inherit"
             noWrap
             className={classes.toolbarTitle}
-            style={{ color: '#ffffff' }}
+            style={{ color: '#ffffff', display: 'flex', flexGrow: '1' }}
           >
             Grow<span style={{ color: '#e16e0e' }}>dev</span>
           </Typography>
           <nav>
             <Link
               color="textPrimary"
-              href="/admin-home/class"
+              href="/"
               className={classes.link}
               style={{
                 width: '150px',
@@ -185,12 +169,14 @@ export default function Pricing() {
                 padding: '5px',
                 borderRadius: '5px',
                 fontWeight: '600',
+                textDecoration: 'none',
+                height: '40px',
               }}
             >
-              Cadastrar Cursos
+              Home
             </Link>
             <Link
-              href="/admin-home/user"
+              href="/admin-growdever"
               color="primary"
               variant="outlined"
               className={classes.link}
@@ -201,162 +187,148 @@ export default function Pricing() {
                 padding: '5px',
                 borderRadius: '5px',
                 fontWeight: '600',
+                textDecoration: 'none',
+                height: '40px',
               }}
             >
               Cadastrar Growdever
             </Link>
-
-            <Button
-              type="button"
+            <Button2
+              style={{
+                color: '#ffffff',
+                backgroundColor: '#DC3545',
+                borderRadius: '5px',
+                fontWeight: '600',
+                height: '40px',
+              }}
               onClick={() => dispatch(loginActions.logout())}
             >
-              Logout
-            </Button>
+              Deslogar
+            </Button2>
           </nav>
         </Toolbar>
       </AppBar>
-      {/* Hero unit */}
-      <Container maxWidth="xl" component="main" className={classes.heroContent}>
-        <Typography
-          component="h1"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-          style={{ color: '#2b385b', fontWeight: '700' }}
-        >
-          <h1>Growdevers</h1>
-          <article
-            style={{
-              width: '90%',
-              margin: 'auto',
-              color: '#2b385b',
-              border: 'solid 3px #2b385b',
-              padding: '10px',
-              borderRadius: '10px',
-            }}
+      <Container
+        component="main"
+        maxWidth="xs"
+        style={{
+          backgroundColor: '#2b385b',
+          color: '#ffffff',
+          paddingBottom: '20px',
+          borderRadius: '20px',
+        }}
+      >
+        <CssBaseline />
+        <div className={classes.paper}>
+          <br />
+          <Avatar
+            style={{ backgroundColor: '#e16e0e' }}
+            className={classes.avatar}
           >
-            <table
-              style={{
-                width: '100%',
-                margin: 'auto',
-                paddingTop: '50px',
-                color: '#ffffff',
-              }}
-            >
-              <thead>
-                <tr
-                  style={{
-                    marginBottom: '1em',
-                    color: '#e16e0e',
-                  }}
-                >
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                  <th>Programa</th>
-                  {/* <th>Excluir</th> */}
-                  {/* <th>Editar</th> */}
-                </tr>
-              </thead>
-
-              <tbody>
-                {growdevers.map((growdever) => (
-                  <React.Fragment key={growdever.uid}>
-                    <tr style={{ color: '#2b385b', marginTop: '1em' }}>
-                      <td>{growdever.name}</td>
-                      <td>{growdever.email}</td>
-                      <td>{growdever.phone}</td>
-                      <td>{growdever.program}</td>
-                      {/* <td>{`${classe.watched ? 'Sim' : 'Não'}`}</td> */}
-                      <td>
-                        <span>
-                          <Button
-                            style={{ width: '100px' }}
-                            onClick={() =>
-                              handleDeleteGrowdevers(growdever.uid)
-                            }
-                          >
-                            Excluir
-                          </Button>
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          <Button
-                            style={{ width: '100px' }}
-                            // onClick={() =>
-                            //   handleDeleteGrowdevers(growdever.uid)
-                            // }
-                          >
-                            Editar
-                          </Button>
-                        </span>
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          </article>
-        </Typography>
-      </Container>
-      {/* End hero unit */}
-      <Container maxWidth="md" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
-          {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid
-              item
-              key={tier.title}
-              xs={12}
-              sm={tier.title === 'Enterprise' ? 12 : 6}
-              md={4}
-            >
-              <Card>
-                <CardHeader
-                  title={tier.title}
-                  // subheader={tier.subheader}
-                  titleTypographyProps={{ align: 'center' }}
-                  subheaderTypographyProps={{ align: 'center' }}
-                  action={tier.title === 'Pro' ? <StarIcon /> : null}
-                  className={classes.cardHeader}
-                  style={{ backgroundColor: '#2b385b', color: '#ffffff' }}
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Cadastro de Growdever
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="fname"
+                  name="Bootcamp"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="Bootcamp"
+                  autoFocus
+                  value={bootcamp}
+                  onChange={(e) => setBootcamp(e.target.value)}
+                  style={{ backgroundColor: '#ffffff' }}
                 />
-                <CardContent>
-                  <ul>
-                    {tier.description.map((line) => (
-                      <Typography
-                        component="li"
-                        variant="subtitle1"
-                        align="center"
-                        key={line}
-                      >
-                        {line}
-                      </Typography>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    fullWidth
-                    variant={tier.buttonVariant}
-                    // color="primary"
-                    style={{ backgroundColor: '#e16e0e', color: '#ffffff' }}
-                  >
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
-              </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="Date"
+                  name="Date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  style={{ backgroundColor: '#ffffff' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="hour"
+                  label="hour"
+                  value={hour}
+                  onChange={(e) => setHour(e.target.value)}
+                  style={{ backgroundColor: '#ffffff' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="status"
+                  label="status"
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  style={{ backgroundColor: '#ffffff' }}
+                />
+              </Grid>
             </Grid>
-          ))}
-        </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleClasse}
+              style={{ backgroundColor: '#e16e0e' }}
+            >
+              Adicionar Growdever
+            </Button>
+          </form>
+        </div>
       </Container>
-
-      <Container maxWidth="md" component="footer" className={classes.footer}>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
+      <TableContainer
+        component={Paper}
+        style={{
+          width: '90%',
+          margin: 'auto',
+          marginTop: '5em',
+          border: 'solid 1px #2B385B',
+        }}
+      >
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Bootcamps</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">Hour</TableCell>
+              <TableCell align="center">Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {classe.map((clas) => (
+              <React.Fragment key={clas.uid}>
+                <TableRow>
+                  <TableCell align="center">{clas.bootcamp}</TableCell>
+                  <TableCell align="center">{clas.date}</TableCell>
+                  <TableCell align="center">{clas.hour}</TableCell>
+                  <TableCell align="center">{clas.status}</TableCell>
+                </TableRow>
+              </React.Fragment>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

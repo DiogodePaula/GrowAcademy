@@ -10,29 +10,21 @@ import ClassesAdmin from '../pages/Admin/criarCurso';
 import HomePage from '../pages/Growdever/homeGrow';
 import LoginPage from '../pages/login';
 import UserPage from '../pages/Admin/user';
-import MyMovies from '../pages/myMovies';
 
 export default () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Router path="/admin-home" exact isPrivate component={HomeAdmin} />
+        <Router path="/" exact isPrivate component={HomeAdmin} />
         <Router
-          path="/admin-home/user"
+          path="/admin-growdever"
           exact
           isPrivate
           component={AdminAddGrow}
         />
-        <Router
-          path="/admin-home/class"
-          exact
-          isPrivate
-          component={ClassesAdmin}
-        />
-
-        <Router path="/HomePage" exact isPrivate component={HomePage} />
-        <Router path="/movie" exact isPrivate component={MyMovies} />
-        <Router path="/" exact component={LoginPage} />
+        <Router path="/admin-class" exact isPrivate component={ClassesAdmin} />
+        <Router path="/HomePage" exact component={HomePage} />
+        <Router path="/login" exact component={LoginPage} />
         <Router path="/register" exact component={UserPage} />
         {/* <Router path="/classes" exact isPrivate component={Classes} /> */}
       </Switch>

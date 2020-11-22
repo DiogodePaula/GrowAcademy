@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +15,8 @@ import Container from '@material-ui/core/Container';
 import { Toolbar, AppBar } from '@material-ui/core';
 
 import api from '../../../services/api';
+import * as loginActions from '../../../store/login/action';
+import { Button2 } from '../homeAdmin/styles';
 
 function Copyright() {
   return (
@@ -99,11 +102,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const [userSelected, setUserSelected] = useState('');
   const [name, setName] = useState('');
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [program, setProgram] = useState('');
@@ -143,7 +144,7 @@ export default function SignUp() {
 
       .catch((error) => alert('Error ao buscar alunos cadastrados.'));
   }, []);
-  console.log(userLogin);
+
   return (
     <>
       <CssBaseline />
@@ -166,23 +167,7 @@ export default function SignUp() {
           </Typography>
           <nav>
             <Link
-              variant="button"
-              color="textPrimary"
-              href="/admin-home/class"
-              className={classes.link}
-              style={{
-                width: '150px',
-                color: '#2b385b',
-                backgroundColor: '#ffffff',
-                padding: '5px',
-                borderRadius: '5px',
-                fontWeight: '600',
-              }}
-            >
-              Cadastrar Cursos
-            </Link>
-            <Link
-              href="/admin-home"
+              href="/"
               color="primary"
               variant="outlined"
               className={classes.link}
@@ -193,23 +178,42 @@ export default function SignUp() {
                 padding: '5px 10px',
                 borderRadius: '5px',
                 fontWeight: '600',
+                textDecoration: 'none',
+                height: '40px',
               }}
             >
-              HOME
+              Home
             </Link>
-
-            <Button
-              type="button"
+            <Link
+              color="textPrimary"
+              href="/admin-class"
+              className={classes.link}
               style={{
+                width: '150px',
                 color: '#2b385b',
                 backgroundColor: '#ffffff',
+                padding: '5px',
                 borderRadius: '5px',
                 fontWeight: '600',
+                textDecoration: 'none',
+                height: '40px',
               }}
-              // onClick={() => dispatch(loginActions.logout())}
             >
-              Logout
-            </Button>
+              Cadastrar Cursos
+            </Link>
+
+            <Button2
+              style={{
+                color: '#ffffff',
+                backgroundColor: '#DC3545',
+                borderRadius: '5px',
+                fontWeight: '600',
+                height: '40px',
+              }}
+              onClick={() => dispatch(loginActions.logout())}
+            >
+              Deslogar
+            </Button2>
           </nav>
         </Toolbar>
       </AppBar>
